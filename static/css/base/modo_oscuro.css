@@ -1,0 +1,201 @@
+/* Dark Mode Overrides */
+.dark-mode body {
+    background-color: #121212 !important;
+    color: #e0e0e0 !important;
+}
+
+.dark-mode header,
+.dark-mode footer,
+.dark-mode .intro,
+.dark-mode section,
+.dark-mode .card,
+.dark-mode .card-custom,
+.dark-mode .alert,
+.dark-mode .table {
+    background-color: #1e1e1e !important;
+    color: #e0e0e0 !important;
+    border-color: #333 !important;
+}
+
+.dark-mode header {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7) !important;
+}
+
+.dark-mode nav .btn {
+    background-color: #2a2a2a !important;
+    color: #e0e0e0 !important;
+    border: 1px solid #444 !important;
+}
+
+.dark-mode nav .btn:hover {
+    background-color: #3a3a3a !important;
+}
+
+.dark-mode .btn-primary {
+    background-color: #0055a5 !important;
+    border-color: #004080 !important;
+    color: #fff !important;
+}
+
+.dark-mode .btn-secondary {
+    background-color: #444 !important;
+    border-color: #555 !important;
+    color: #e0e0e0 !important;
+}
+
+.dark-mode .highlight {
+    background-color: #2a2a2a !important;
+    border: 1px solid #555 !important;
+    color: #ffeb3b !important;
+}
+
+.dark-mode .card-header {
+    background-color: #2b2b2b !important;
+    color: #e0e0e0 !important;
+}
+
+.dark-mode .card-body,
+.dark-mode .card p,
+.dark-mode .card ul,
+.dark-mode .card li {
+    background-color: #1e1e1e !important;
+    color: #e0e0e0 !important;
+}
+
+.dark-mode .card-custom img,
+.dark-mode img {
+    filter: brightness(0.9) contrast(1.1) !important;
+}
+
+.dark-mode table,
+.dark-mode th,
+.dark-mode td {
+    background-color: #1e1e1e !important;
+    color: #e0e0e0 !important;
+    border: 1px solid #444 !important;
+}
+
+.dark-mode .modal-content {
+    background-color: #1e1e1e !important;
+    color: #e0e0e0 !important;
+}
+
+.dark-mode .modal-header {
+    background-color: #2b2b2b !important;
+}
+
+.dark-mode .modal-footer {
+    background-color: #2b2b2b !important;
+}
+
+.dark-mode input,
+.dark-mode select,
+.dark-mode textarea,
+.dark-mode .form-control {
+    background-color: #2a2a2a !important;
+    color: #e0e0e0 !important;
+    border: 1px solid #444 !important;
+}
+
+.dark-mode a {
+    color: #8ab4f8 !important;
+}
+
+.dark-mode a.btn {
+    text-decoration: none !important;
+}
+
+
+
+/* Change the placeholder color for all inputs/textareas */
+::placeholder {
+    color: #888888;
+    /* whatever color you like */
+    opacity: 1;
+    /* override the default semi-transparency */
+}
+
+/* Vendor prefixes for maximum browser support */
+::-webkit-input-placeholder {
+    color: #888888;
+    opacity: 1;
+}
+
+:-ms-input-placeholder {
+    color: #888888;
+    opacity: 1;
+}
+
+::-ms-input-placeholder {
+    color: #888888;
+    opacity: 1;
+}
+
+.form-control::placeholder {
+    color: #888888;
+    opacity: 1;
+}
+
+/* placeholders en modo osucor */
+.dark-mode ::placeholder {
+    color: #fff !important;
+    opacity: 1 !important;
+}
+
+.dark-mode :-ms-input-placeholder {
+    /* IE 10+ */
+    color: #fff !important;
+    opacity: 1 !important;
+}
+
+.dark-mode ::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: #fff !important;
+    opacity: 1 !important;
+}
+
+.dark-mode ::-webkit-input-placeholder {
+    /* Chrome/Safari/Opera */
+    color: #fff !important;
+    opacity: 1 !important;
+}
+
+.dark-mode .form-control::placeholder {
+    color: #fff !important;
+    opacity: 1 !important;
+}
+
+
+
+.dark-mode .btn-group .btn-light {
+    background-color: #2a2a2a !important;
+    color: #e0e0e0 !important;
+    border: 1px solid #444 !important;
+}
+
+/* Hover de btn-light en modo oscuro */
+.dark-mode .btn-group .btn-light:hover {
+    background-color: #3a3a3a !important;
+}
+
+.dark-mode .accordion-button {
+    background-color: #2a2a2a !important;
+    color: #e0e0e0 !important;
+    border-color: #444 !important;
+}
+
+.dark-mode .accordion-button:not(.collapsed) {
+    background-color: #3a3a3a !important;
+}
+
+.dark-mode .accordion-body {
+    background-color: #1e1e1e !important;
+    color: #e0e0e0 !important;
+    border-top: 1px solid #444 !important;
+}
+
+/* Utility for toggling dark mode */
+html.dark-mode {
+    --bg: #121212;
+    --fg: #e0e0e0;
+}

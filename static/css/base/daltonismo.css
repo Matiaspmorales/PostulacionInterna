@@ -1,0 +1,298 @@
+/* Modo daltónico / alto contraste */
+.colorblind-mode body {
+    background-color: #000 !important;
+    color: #FFD !important;
+}
+
+.colorblind-mode header,
+.colorblind-mode .intro,
+.colorblind-mode .section,
+.colorblind-mode .highlight,
+.colorblind-mode footer {
+    background-color: #000 !important;
+    color: #FFD !important;
+    border-color: #FFD !important;
+}
+
+.colorblind-mode nav .btn,
+.colorblind-mode .btn-primary,
+.colorblind-mode .btn-secondary {
+    background-color: #FFD !important;
+    color: #000 !important;
+    border-color: #FFD !important;
+}
+
+.colorblind-mode table,
+.colorblind-mode th,
+.colorblind-mode td {
+    background-color: #000 !important;
+    color: #FFD !important;
+    border: 1px solid #FFD !important;
+}
+
+.colorblind-mode a,
+.colorblind-mode a.btn {
+    color: #000 !important;
+}
+
+.colorblind-mode input,
+.colorblind-mode select,
+.colorblind-mode textarea {
+    background-color: #111 !important;
+    color: #FFD !important;
+    border: 1px solid #FFD !important;
+}
+
+.colorblind-mode .card,
+.colorblind-mode .card-header,
+.colorblind-mode .card-body {
+    background-color: #000 !important;
+    color: #FFD !important;
+    border: 1px solid #FFD !important;
+}
+
+/* Daltonic / High-contrast mode overrides */
+.colorblind-mode .card-custom,
+.colorblind-mode .card,
+.colorblind-mode .card-header,
+.colorblind-mode .card-body,
+.colorblind-mode .card p,
+.colorblind-mode .card ul,
+.colorblind-mode .card li {
+    background-color: #000 !important;
+    color: #FFD !important;
+    border: 1px solid #FFD !important;
+}
+
+.colorblind-mode .card-header {
+    background-color: #111 !important;
+    color: #FFD !important;
+}
+
+.colorblind-mode .card-custom img,
+.colorblind-mode img {
+    filter: brightness(0.8) contrast(1.2) !important;
+}
+
+.colorblind-mode .row,
+.colorblind-mode .col-md-4,
+.colorblind-mode .col-12 {
+    background-color: #000 !important;
+}
+
+.colorblind-mode button,
+.colorblind-mode .btn,
+.colorblind-mode .btn-danger,
+.colorblind-mode .btn-primary,
+.colorblind-mode .btn-secondary {
+    background-color: #FFD !important;
+    color: #000 !important;
+    border: 1px solid #000 !important;
+}
+
+.colorblind-mode input,
+.colorblind-mode select,
+.colorblind-mode textarea,
+.colorblind-mode .form-control {
+    background-color: #111 !important;
+    color: #FFD !important;
+    border: 1px solid #FFD !important;
+}
+
+.colorblind-mode a,
+.colorblind-mode a.btn {
+    color: #000 !important;
+    text-decoration: underline !important;
+}
+
+
+
+.colorblind-mode .alert-primary,
+.colorblind-mode .alert-success {
+    background-color: #000 !important;
+    color: #FFD !important;
+    border: 1px solid #FFD !important;
+}
+
+.colorblind-mode .alert-primary .alert-heading,
+.colorblind-mode .alert-success ul>strong {
+    color: #FFD !important;
+}
+
+.colorblind-mode .alert-primary ul,
+.colorblind-mode .alert-success ul {
+    margin: 0.5rem 0 0 1rem;
+    padding: 0;
+    list-style-position: inside;
+}
+
+.colorblind-mode .alert-primary li,
+.colorblind-mode .alert-success li {
+    color: #FFD !important;
+}
+
+.colorblind-mode .alert-primary a,
+.colorblind-mode .alert-success a {
+    color: #FFD !important;
+    text-decoration: underline !important;
+}
+
+.colorblind-mode .card-header {
+    /* Remove gradient, use solid high-contrast background */
+    background: #000 !important;
+    /* Ensure text is highly legible */
+    color: #FFD !important;
+    /* Preserve rounding */
+    border-radius: 10px !important;
+}
+
+.colorblind-mode .card-header h5 {
+    /* Make sure heading stands out */
+    color: #FFD !important;
+    /* Remove any letter-spacing or font styling that might reduce legibility */
+    letter-spacing: normal !important;
+    font-weight: bold !important;
+}
+
+.colorblind-mode .modal-content {
+    background-color: #000 !important;
+    color: #FFD !important;
+    border: 1px solid #FFD !important;
+}
+
+.colorblind-mode .modal-header {
+    background-color: #111 !important;
+    color: #FFD !important;
+    border-bottom: 1px solid #FFD !important;
+}
+
+.colorblind-mode .modal-title {
+    color: #FFD !important;
+}
+
+.colorblind-mode .modal-body {
+    background-color: #000 !important;
+    color: #FFD !important;
+}
+
+.colorblind-mode .modal-footer {
+    background-color: #111 !important;
+    border-top: 1px solid #FFD !important;
+}
+
+.colorblind-mode .btn-close {
+    filter: invert(1) !important;
+}
+
+.colorblind-mode .btn-light {
+    background-color: #FFD !important;
+    color: #000 !important;
+    border: 1px solid #000 !important;
+}
+
+.colorblind-mode table {
+    background-color: #000 !important;
+    color: #FFD !important;
+    border-collapse: collapse !important;
+}
+
+.colorblind-mode table th,
+.colorblind-mode table td {
+    border: 1px solid #FFD !important;
+    padding: 0.75rem !important;
+}
+
+.colorblind-mode table th {
+    background-color: #111 !important;
+    color: #FFD !important;
+    font-weight: bold !important;
+}
+
+.colorblind-mode table td {
+    background-color: #000 !important;
+    color: #FFD !important;
+}
+
+.colorblind-mode table a {
+    color: #FFD !important;
+    text-decoration: underline !important;
+    font-weight: bold !important;
+}
+
+
+.colorblind-mode .btn-secondary {
+    background-color: #FFD !important;
+    color: #000 !important;
+    border: 1px solid #000 !important;
+}
+
+
+/* Placeholders en modo daltónico */
+.colorblind-mode ::placeholder {
+    color: #FFD !important;
+    opacity: 1 !important;
+}
+
+.colorblind-mode :-ms-input-placeholder {
+    /* IE 10+ */
+    color: #FFD !important;
+    opacity: 1 !important;
+}
+
+.colorblind-mode ::-ms-input-placeholder {
+    /* Edge */
+    color: #FFD !important;
+    opacity: 1 !important;
+}
+
+.colorblind-mode ::-webkit-input-placeholder {
+    /* Chrome/Safari/Opera */
+    color: #FFD !important;
+    opacity: 1 !important;
+}
+
+.colorblind-mode .form-control::placeholder {
+    color: #FFD !important;
+    opacity: 1 !important;
+}
+
+
+.colorblind-mode .accordion-item {
+    background-color: #000 !important;
+    color: #FFD !important;
+    border: 1px solid #FFD !important;
+}
+
+.colorblind-mode .accordion-button {
+    background-color: #000 !important;
+    color: #FFD !important;
+    border: 1px solid #FFD !important;
+}
+
+.colorblind-mode .accordion-button:not(.collapsed) {
+    background-color: #111 !important;
+    color: #FFD !important;
+    box-shadow: none !important;
+    border-bottom: 1px solid #FFD !important;
+}
+
+.colorblind-mode .accordion-body {
+    background-color: #000 !important;
+    color: #FFD !important;
+    border-top: none !important;
+}
+
+.colorblind-mode .accordion-button:focus {
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+
+/* Texto de usuario dentro de inputs/selects/textareas */
+.colorblind-mode input.form-control,
+.colorblind-mode select.form-control,
+.colorblind-mode textarea.form-control {
+    background-color: #111 !important;
+    color: #FFD !important;
+    border: 1px solid #FFD !important;
+}
