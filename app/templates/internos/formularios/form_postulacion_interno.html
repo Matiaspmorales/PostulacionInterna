@@ -1,0 +1,401 @@
+{% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block titulo %}
+FORMULARIO - Postulación Interna
+{% endblock %}
+
+{% block contenido %}
+<div class="accordion mb-4 container-sm" id="accordionInformacion" style="max-width: 600px;">
+  
+  <div class="mt-4" style="max-width: 600px; margin: auto;">
+    <div class="card">
+      <div class="card-header bg-warning text-dark">
+        Información Importante
+      </div>
+      <div class="card-body">
+        {% for linea in postulacion.importante.splitlines %}
+          <li>{{ linea }}</li>
+        {% endfor %}
+        <p><strong>Periodo de postulación:</strong> Desde {{ postulacion.fecha_inicio }} hasta {{ postulacion.fecha_termino }}</p>
+
+        {% if postulacion.bases %}
+             <p><strong>Bases:</strong> <a href="{{ postulacion.bases.url }}"  class="btn btn-outline-primary btn-lg btn-sm"  target="_blank" >Ver</a></p>
+        <p><strong>Certificado Laboral:</strong> <a href="/media/documentos/certificadoLaboral.doc" class="btn btn-outline-primary btn-lg btn-sm" download target="_blank">Descargar</a></p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Sección 1: Datos Generales -->
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingGeneral">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseGeneral"
+        aria-expanded="true" aria-controls="collapseGeneral">
+        Datos Generales
+      </button>
+    </h2>
+    <div id="collapseGeneral" class="accordion-collapse collapse show" aria-labelledby="headingGeneral" data-bs-parent="#accordionInformacion">
+      <div class="accordion-body">
+        <p><strong>Título:</strong> {{ postulacion.titulo }}</p>
+        <p><strong>Nombre del Cargo:</strong> {{ postulacion.nombre_cargo }}</p>
+        <p><strong>Objetivo:</strong> {{ postulacion.objetivo }}</p>
+        <p><strong>Grado:</strong> {{ postulacion.grado }}</p>
+        <p><strong>Remuneración:</strong> {{ postulacion.remuneracion }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sección 2: Detalle del Cargo -->
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingDetalle">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDetalle"
+        aria-expanded="false" aria-controls="collapseDetalle">
+        Detalle del Cargo
+      </button>
+    </h2>
+    <div id="collapseDetalle" class="accordion-collapse collapse" aria-labelledby="headingDetalle" data-bs-parent="#accordionInformacion">
+      <div class="accordion-body">
+        <p><strong>Funciones del cargo:</strong></p>
+        <ol>
+          {% for linea in postulacion.funciones_cargo.splitlines %}
+            <li>{{ linea }}</li>
+          {% endfor %}
+        </ol>
+
+        {% if postulacion.funciones_complementarias_cargo %}
+          <p><strong>Funciones Complementarias:</strong></p>
+          <ol>
+            {% for linea in postulacion.funciones_complementarias_cargo.splitlines %}
+              <li>{{ linea }}</li>
+            {% endfor %}
+          </ol>
+        {% endif %}
+
+        <p><strong>Características del Entorno:</strong></p>
+        <ul>
+          {% for linea in postulacion.caracteristicas_entorno.splitlines %}
+            <li>{{ linea }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sección 3: Requisitos -->
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingRequisitos">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRequisitos"
+        aria-expanded="false" aria-controls="collapseRequisitos">
+        Requisitos del Cargo
+      </button>
+    </h2>
+    <div id="collapseRequisitos" class="accordion-collapse collapse" aria-labelledby="headingRequisitos" data-bs-parent="#accordionInformacion">
+      <div class="accordion-body">
+        <p><strong>Requisitos:</strong></p>
+        <ul>
+          {% for linea in postulacion.requisitos.splitlines %}
+            <li>{{ linea }}</li>
+          {% endfor %}
+        </ul>
+
+        <p><strong>Formación y Conocimientos requeridos:</strong></p>
+        <ul>
+          <li>
+            <p><strong>Formaciones Generales:</strong> Podrán considerarse como capacitaciones generales aquellas vinculadas con las siguientes temáticas.</p>
+            <ul>
+              {% for linea in postulacion.conocimientos_generales.splitlines %}
+                <li>{{ linea }}</li>
+              {% endfor %}
+            </ul>
+          </li>
+          <li>
+            <p><strong>Formaciones Específicas:</strong> Podrán considerarse como capacitaciones específicas aquellas vinculadas con las siguientes temáticas.</p>
+            <ul>
+              {% for linea in postulacion.conocimientos_especificos.splitlines %}
+                <li>{{ linea }}</li>
+              {% endfor %}
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sección 4: Competencias -->
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingCompetencias">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCompetencias"
+        aria-expanded="false" aria-controls="collapseCompetencias">
+        Competencias
+      </button>
+    </h2>
+    <div id="collapseCompetencias" class="accordion-collapse collapse" aria-labelledby="headingCompetencias" data-bs-parent="#accordionInformacion">
+      <div class="accordion-body">
+        <h5><strong>Competencias Transversales</strong></h5>
+        {% if competencias_trans %}
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Nivel</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for c in competencias_trans %}
+                  <tr>
+                    <td>{{ c.nombre }}</td>
+                    <td>{{ c.nivel }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% else %}
+          <p>No se han registrado competencias transversales.</p>
+        {% endif %}
+
+        <h5 class="mt-3"><strong>Competencias Específicas</strong></h5>
+        {% if competencias_esp %}
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Nivel</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for c in competencias_esp %}
+                  <tr>
+                    <td>{{ c.nombre }}</td>
+                    <td>{{ c.nivel }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% else %}
+          <p>No se han registrado competencias específicas.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+
+</div>  {# cierra accordion #}
+
+
+<form id="formulario" novalidate method="POST" action="{% url 'postulacion:postular_interno' postulacion.id %}"
+  enctype="multipart/form-data" style="max-width: 700px; margin: 20px auto;">
+  {% csrf_token %}
+
+  <!-- Paso 1: Datos Personales -->
+  <div class="form-step" id="step-1">
+    <div class="card mb-4">
+      <div class="card-header bg-primary text-white">Datos Personales</div>
+      <div class="card-body">
+        <label><strong>{{ form.rut.label }}</strong></label>
+        {{ form.rut|add_class:"form-control" }}
+        {% for error in form.rut.errors %}<div class="text-danger"><small>{{ error }}</small></div>{% endfor %}
+
+        <label class="mt-3"><strong>{{ form.nombre_completo.label }}</strong></label>
+        {{ form.nombre_completo|add_class:"form-control" }}
+        {% for error in form.nombre_completo.errors %}<div class="text-danger"><small>{{ error }}</small></div>{% endfor %}
+
+        <label class="mt-3"><strong>{{ form.genero.label }}</strong></label>
+        {{ form.genero|add_class:"form-control" }}
+        {% for error in form.genero.errors %}<div class="text-danger"><small>{{ error }}</small></div>{% endfor %}
+
+        <div id="otro-genero-container" class="mt-3">
+          <label><strong>{{ form.otro_genero.label }}</strong></label>
+          {{ form.otro_genero|add_class:"form-control" }}
+          {% for error in form.otro_genero.errors %}<div class="text-danger"><small>{{ error }}</small></div>{% endfor %}
+        </div>
+
+        <label class="mt-3"><strong>{{ form.comuna_residencia.label }}</strong></label>
+        {{ form.comuna_residencia|add_class:"form-control" }}
+        {% for error in form.comuna_residencia.errors %}<div class="text-danger"><small>{{ error }}</small></div>{% endfor %}
+
+        <label class="mt-3"><strong>{{ form.telefono_contacto.label }}</strong></label>
+        {{ form.telefono_contacto|add_class:"form-control" }}
+        {% for error in form.telefono_contacto.errors %}<div class="text-danger"><small>{{ error }}</small></div>{% endfor %}
+
+        <label class="mt-3"><strong>{{ form.correo_electronico.label }}</strong></label>
+        {{ form.correo_electronico|add_class:"form-control" }}
+        {% for error in form.correo_electronico.errors %}<div class="text-danger"><small>{{ error }}</small></div>{% endfor %}
+
+        <div class="text-end mt-4">
+          <button type="button" class="btn btn-primary" onclick="nextStep()">Siguiente</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paso 2: Antecedentes Profesionales -->
+  <div class="form-step d-none" id="step-2">
+    <div class="card mb-4">
+      <div class="card-header bg-success text-white">Antecedentes Profesionales</div>
+      <div class="card-body">
+        <label><strong>{{ form.posee_certificado_titulo.label }}</strong></label>
+        {{ form.posee_certificado_titulo|add_class:"form-control" }}
+        {% for error in form.posee_certificado_titulo.errors %}<div class="text-danger"><small>{{ error }}</small></div>{% endfor %}
+
+        <label class="mt-3"><strong>{{ form.posee_certificado_laboral.label }}</strong></label>
+        {{ form.posee_certificado_laboral|add_class:"form-control" }}
+        {% for error in form.posee_certificado_laboral.errors %}<div class="text-danger"><small>{{ error }}</small></div>{% endfor %}
+
+        <label class="mt-3"><strong>{{ form.presenta_certificado_cursos.label }}</strong></label>
+        {{ form.presenta_certificado_cursos|add_class:"form-control" }}
+        {% for error in form.presenta_certificado_cursos.errors %}<div class="text-danger"><small>{{ error }}</small></div>{% endfor %}
+
+        <label class="mt-3"><strong>{{ form.discapacidad.label }}</strong></label>
+        {{ form.discapacidad|add_class:"form-control" }}
+        {% for error in form.discapacidad.errors %}<div class="text-danger"><small>{{ error }}</small></div>{% endfor %}
+
+        <label class="mt-3"><strong>{{ form.años_experiencia.label }}</strong></label>
+        {{ form.años_experiencia|add_class:"form-control" }}
+        {% for error in form.años_experiencia.errors %}<div class="text-danger"><small>{{ error }}</small></div>{% endfor %}
+
+        <div class="d-flex justify-content-between mt-4">
+          <button type="button" class="btn btn-secondary" onclick="prevStep()">Anterior</button>
+          <button type="button" class="btn btn-primary" onclick="nextStep()">Siguiente</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paso 3: Documentación Adjunta -->
+  <div class="form-step d-none" id="step-3">
+    <div class="card mb-4">
+      <div class="card-header bg-info text-white">Documentación Adjunta</div>
+      <div class="card-body">
+        <label><strong>{{ form.curriculum.label }}</strong></label>
+        {{ form.curriculum|add_class:"form-control" }}
+        {% for error in form.curriculum.errors %}<div class="text-danger"><small>{{ error }}</small></div>{% endfor %}
+
+        <label class="mt-3"><strong>{{ form.certificado_laboral.label }}</strong></label>
+        {{ form.certificado_laboral|add_class:"form-control" }}
+        {% for error in form.certificado_laboral.errors %}<div class="text-danger"><small>{{ error }}</small></div>{% endfor %}
+
+        <div id="campo_discapacidad" class="mt-3">
+          <label><strong>{{ form.certificado_discapacidad.label }}</strong></label>
+          {{ form.certificado_discapacidad|add_class:"form-control" }}
+          {% for error in form.certificado_discapacidad.errors %}<div class="text-danger"><small>{{ error }}</small></div>{% endfor %}
+        </div>
+
+        <label class="mt-3"><strong>{{ form.cedula_identidad.label }}</strong></label>
+        {{ form.cedula_identidad|add_class:"form-control" }}
+        {% for error in form.cedula_identidad.errors %}<div class="text-danger"><small>{{ error }}</small></div>{% endfor %}
+
+        <label class="mt-3"><strong>{{ form.certificado_titulo.label }}</strong></label>
+        {{ form.certificado_titulo|add_class:"form-control" }}
+        {% for error in form.certificado_titulo.errors %}<div class="text-danger"><small>{{ error }}</small></div>{% endfor %}
+
+        <label class="mt-3"><strong>{{ form.cursos_capacitaciones.label }}</strong></label>
+        {{ form.cursos_capacitaciones|add_class:"form-control" }}
+        {% for error in form.cursos_capacitaciones.errors %}<div class="text-danger"><small>{{ error }}</small></div>{% endfor %}
+
+        <div class="d-flex justify-content-between mt-4">
+          <button type="button" class="btn btn-secondary" onclick="prevStep()">Anterior</button>
+          <button type="submit" class="btn btn-success">Enviar Formulario</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+{# ==== Modal para mensajes flash ==== #}
+{% for message in messages %}
+  {# Modal de éxito de postulación #}
+  {% if 'postulacion_exito' in message.tags %}
+    <div class="modal fade show" id="mensajeModal" tabindex="-1" aria-labelledby="mensajeModalLabel"
+         style="display:block; background-color: rgba(0,0,0,0.5);" aria-modal="true" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-success">
+            <h5 class="modal-title text-white" id="mensajeModalLabel">Postulación exitosa</h5>
+            <button type="button" class="btn-close" onclick="window.location.href='{% url "postulacion:index" %}'" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            {{ message }}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light" onclick="window.location.href='{% url "postulacion:index" %}'">Aceptar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  {# Modal de error de postulación #}
+  {% elif 'postulacion_error' in message.tags %}
+    <div class="modal fade show" id="mensajeModal" tabindex="-1" aria-labelledby="mensajeModalLabel"
+         style="display:block; background-color: rgba(0,0,0,0.5);" aria-modal="true" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-danger">
+            <h5 class="modal-title text-white" id="mensajeModalLabel">Error al postular</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            {{ message }}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endfor %}
+
+{# ==== Scripts para el wizard de pasos ==== #}
+<script>
+  let currentStep = 1;
+  const totalSteps = 3;
+
+  function showStep(step) {
+    for (let i = 1; i <= totalSteps; i++) {
+      document.getElementById(`step-${i}`).classList.add('d-none');
+    }
+    document.getElementById(`step-${step}`).classList.remove('d-none');
+  }
+
+  function nextStep() {
+    if (currentStep < totalSteps) {
+      currentStep++;
+      showStep(currentStep);
+    }
+  }
+
+  function prevStep() {
+    if (currentStep > 1) {
+      currentStep--;
+      showStep(currentStep);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => showStep(currentStep));
+</script>
+
+{# ==== Archivo JS adicional (form_reemplazos.js) ==== #}
+<script src="{% static 'js/form_reemplazos.js' %}"></script>
+
+{# ==== Script para mostrar/ocultar el campo de certificado de discapacidad ==== #}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const campoDiscapacidad = document.getElementById('campo_discapacidad');
+    const selectDiscapacidad = document.getElementById('id_discapacidad');
+    if (!selectDiscapacidad || !campoDiscapacidad) return;
+
+    function toggleCampoDiscapacidad() {
+      campoDiscapacidad.style.display = selectDiscapacidad.value.trim() === 'No' ? 'none' : 'block';
+    }
+
+    toggleCampoDiscapacidad();
+    selectDiscapacidad.addEventListener('change', toggleCampoDiscapacidad);
+  });
+</script>
+{% endblock %}

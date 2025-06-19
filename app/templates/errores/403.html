@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block titulo %}Acceso Denegado{% endblock %}
+{% block contenido %}
+<div class="alert alert-danger mt-4 text-center">
+  <h3>Acceso denegado</h3>
+  <p>No tienes permiso para ver esta página.</p>
+  <a href="{% url 'postulacion:index' %}" class="btn btn-primary">
+      Volver al inicio
+    </a>
+</div>
+{% endblock %}

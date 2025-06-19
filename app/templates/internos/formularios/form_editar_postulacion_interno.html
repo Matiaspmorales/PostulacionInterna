@@ -1,0 +1,360 @@
+{% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block titulo %}
+EDITAR CONVOCATORIA INTERNA
+{% endblock %}
+
+{% block contenido %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h3 class="mb-4 text-center">Editar Convocatoria Interna</h3>
+            <form method="post" enctype="multipart/form-data" novalidate id="formulario">
+                {% csrf_token %}
+
+                <!-- Paso 1 -->
+                <div class="form-step" id="step-1">
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">1. Título</div>
+                        <div class="card-body">
+                            <label><strong>{{ form.abreviatura.label }}</strong></label>
+                            {{ form.abreviatura }}
+                            {% for error in form.abreviatura.errors %}
+                                <div class="text-danger"><small>{{ error }}</small></div>
+                            {% endfor %}
+
+                            <label class="mt-3"><strong>{{ form.titulo.label }}</strong></label>
+                            {{ form.titulo }}
+                            {% for error in form.titulo.errors %}
+                                <div class="text-danger"><small>{{ error }}</small></div>
+                            {% endfor %}
+
+                            <label class="mt-3"><strong>{{ form.nombre_cargo.label }}</strong></label>
+                            {{ form.nombre_cargo }}
+                            {% for error in form.nombre_cargo.errors %}
+                                <div class="text-danger"><small>{{ error }}</small></div>
+                            {% endfor %}
+
+                            <label class="mt-3"><strong>{{ form.periodo_postulacion.label }}</strong></label>
+                            {{ form.periodo_postulacion }}
+                            {% for error in form.periodo_postulacion.errors %}
+                                <div class="text-danger"><small>{{ error }}</small></div>
+                            {% endfor %}
+
+                            <div class="text-end mt-4">
+                                <button type="button" class="btn btn-primary" onclick="nextStep()">Siguiente</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Paso 2 -->
+                <div class="form-step d-none" id="step-2">
+                    <div class="card mb-4">
+                        <div class="card-header bg-success text-white">2. Descripción del Cargo</div>
+                        <div class="card-body">
+                            <label><strong>{{ form.objetivo.label }}</strong></label>
+                            {{ form.objetivo }}
+                            {% for error in form.objetivo.errors %}
+                                <div class="text-danger"><small>{{ error }}</small></div>
+                            {% endfor %}
+
+                            <label class="mt-3"><strong>{{ form.grado.label }}</strong></label>
+                            {{ form.grado }}
+                            {% for error in form.grado.errors %}
+                                <div class="text-danger"><small>{{ error }}</small></div>
+                            {% endfor %}
+
+                            <label class="mt-3"><strong>{{ form.remuneracion.label }}</strong></label>
+                            {{ form.remuneracion }}
+                            {% for error in form.remuneracion.errors %}
+                                <div class="text-danger"><small>{{ error }}</small></div>
+                            {% endfor %}
+
+                            <label class="mt-3"><strong>{{ form.funciones_cargo.label }}</strong></label>
+                            {{ form.funciones_cargo }}
+                            {% for error in form.funciones_cargo.errors %}
+                                <div class="text-danger"><small>{{ error }}</small></div>
+                            {% endfor %}
+
+                            <label class="mt-3"><strong>{{ form.funciones_complementarias_cargo.label }}</strong></label>
+                            {{ form.funciones_complementarias_cargo }}
+                            {% for error in form.funciones_complementarias_cargo.errors %}
+                                <div class="text-danger"><small>{{ error }}</small></div>
+                            {% endfor %}
+
+                            <label class="mt-3"><strong>{{ form.caracteristicas_entorno.label }}</strong></label>
+                            {{ form.caracteristicas_entorno }}
+                            {% for error in form.caracteristicas_entorno.errors %}
+                                <div class="text-danger"><small>{{ error }}</small></div>
+                            {% endfor %}
+
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-secondary" onclick="prevStep()">Anterior</button>
+                                <button type="button" class="btn btn-primary" onclick="nextStep()">Siguiente</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Paso 3 -->
+                <div class="form-step d-none" id="step-3">
+                    <div class="card mb-4">
+                        <div class="card-header bg-info text-white">3. Requisitos y Competencias</div>
+                        <div class="card-body">
+                            <label><strong>{{ form.requisitos.label }}</strong></label>
+                            {{ form.requisitos }}
+                            {% for error in form.requisitos.errors %}
+                                <div class="text-danger"><small>{{ error }}</small></div>
+                            {% endfor %}
+
+                            <label class="mt-3"><strong>{{ form.conocimientos_generales.label }}</strong></label>
+                            {{ form.conocimientos_generales }}
+                            {% for error in form.conocimientos_generales.errors %}
+                                <div class="text-danger"><small>{{ error }}</small></div>
+                            {% endfor %}
+
+                            <label class="mt-3"><strong>{{ form.conocimientos_especificos.label }}</strong></label>
+                            {{ form.conocimientos_especificos }}
+                            {% for error in form.conocimientos_especificos.errors %}
+                                <div class="text-danger"><small>{{ error }}</small></div>
+                            {% endfor %}
+
+                            <label class="mt-3"><strong>{{ form.importante.label }}</strong></label>
+                            {{ form.importante }}
+                            {% for error in form.importante.errors %}
+                                <div class="text-danger"><small>{{ error }}</small></div>
+                            {% endfor %}
+
+                            <!-- COMPETENCIAS TRANSVERSALES -->
+                            <h5 class="mt-4"><strong>Competencias Transversales</strong></h5>
+                            <div id="formset-transversales">
+                                {{ formset_transversales.management_form }}
+                                {% for trans_form in formset_transversales %}
+                                    <div class="d-flex gap-2 mb-2 trans-row align-items-start {% if not trans_form.instance.pk %}d-none{% endif %}">
+                                        {{ trans_form.nombre|add_class:"form-control" }}
+                                        {{ trans_form.nivel|add_class:"form-control" }}
+                                        {{ trans_form.DELETE }}
+                                        <button type="button"
+                                                class="btn btn-outline-danger btn-sm ms-2 btn-delete-trans"
+                                                onclick="deleteTransversal(this)">Eliminar</button>
+                                        {% for field in trans_form.hidden_fields %}{{ field }}{% endfor %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <button type="button" class="btn btn-outline-primary btn-sm mt-2" onclick="addTransversal()">
+                                Agregar competencia transversal
+                            </button>
+
+                            <!-- COMPETENCIAS ESPECÍFICAS -->
+                            <h5 class="mt-4"><strong>Competencias Específicas del Cargo</strong></h5>
+                            <div id="formset-especificas">
+                                {{ formset_especificas.management_form }}
+                                {% for esp_form in formset_especificas %}
+                                    <div class="d-flex gap-2 mb-2 esp-row align-items-start {% if not esp_form.instance.pk %}d-none{% endif %}">
+                                        {{ esp_form.nombre|add_class:"form-control" }}
+                                        {{ esp_form.nivel|add_class:"form-control" }}
+                                        {{ esp_form.DELETE }}
+                                        <button type="button"
+                                                class="btn btn-outline-danger btn-sm ms-2 btn-delete-esp"
+                                                onclick="deleteEspecifica(this)">Eliminar</button>
+                                        {% for field in esp_form.hidden_fields %}{{ field }}{% endfor %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <button type="button" class="btn btn-outline-primary btn-sm mt-2" onclick="addEspecifica()">
+                                Agregar competencia específica
+                            </button>
+
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-secondary" onclick="prevStep()">Anterior</button>
+                                <button type="button" class="btn btn-primary" onclick="nextStep()">Siguiente</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Paso 4 -->
+                <div class="form-step d-none" id="step-4">
+                    <div class="card mb-4">
+                        <div class="card-header bg-warning text-dark">4. Fechas y Bases</div>
+                        <div class="card-body">
+                            <label><strong>{{ form.fecha_inicio.label }}</strong></label>
+                            {{ form.fecha_inicio }}
+                            {% for error in form.fecha_inicio.errors %}
+                                <div class="text-danger"><small>{{ error }}</small></div>
+                            {% endfor %}
+
+                            <label class="mt-3"><strong>{{ form.fecha_termino.label }}</strong></label>
+                            {{ form.fecha_termino }}
+                            {% for error in form.fecha_termino.errors %}
+                                <div class="text-danger"><small>{{ error }}</small></div>
+                            {% endfor %}
+
+                            <label class="mt-3"><strong>{{ form.bases.label }}</strong></label>
+                            {{ form.bases }}
+                            {% for error in form.bases.errors %}
+                                <div class="text-danger"><small>{{ error }}</small></div>
+                            {% endfor %}
+
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-secondary" onclick="prevStep()">Anterior</button>
+                                <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentStep = 1;
+    const totalSteps = 4;
+
+    function showStep(step) {
+        for (let i = 1; i <= totalSteps; i++) {
+            document.getElementById(`step-${i}`).classList.add('d-none');
+        }
+        document.getElementById(`step-${step}`).classList.remove('d-none');
+    }
+
+    function nextStep() {
+        if (currentStep < totalSteps) {
+            currentStep++;
+            showStep(currentStep);
+        }
+    }
+
+    function prevStep() {
+        if (currentStep > 1) {
+            currentStep--;
+            showStep(currentStep);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        showStep(currentStep);
+        updateDeleteButtonsTransversales();
+        updateDeleteButtonsEspecificas();
+    });
+
+    function addTransversal() {
+        const formset = document.getElementById('formset-transversales');
+        const totalForms = document.getElementById('id_trans-TOTAL_FORMS');
+        const currentCount = parseInt(totalForms.value);
+
+        const prototypeRow = formset.querySelector('.trans-row').cloneNode(true);
+        prototypeRow.querySelectorAll('input, select').forEach(input => {
+            input.name = input.name.replace(/-\d+-/, `-${currentCount}-`);
+            input.id = input.id.replace(/-\d+-/, `-${currentCount}-`);
+            input.value = '';
+        });
+        formset.appendChild(prototypeRow);
+        totalForms.value = currentCount + 1;
+        updateDeleteButtonsTransversales();
+    }
+
+    function deleteTransversal(button) {
+        const row = button.closest('.trans-row');
+        const deleteField = row.querySelector('input[type="checkbox"][name$="DELETE"]');
+        if (deleteField) {
+            deleteField.checked = true;
+            row.style.display = 'none';
+        }
+        updateDeleteButtonsTransversales();
+    }
+
+    function updateDeleteButtonsTransversales() {
+        const deleteButtons = document.querySelectorAll('.btn-delete-trans');
+        const total = document.querySelectorAll('.trans-row').length;
+        deleteButtons.forEach(btn => btn.disabled = total <= 1);
+    }
+
+    function addEspecifica() {
+        const formset = document.getElementById('formset-especificas');
+        const totalForms = document.getElementById('id_esp-TOTAL_FORMS');
+        const currentCount = parseInt(totalForms.value);
+
+        const prototypeRow = formset.querySelector('.esp-row').cloneNode(true);
+        prototypeRow.querySelectorAll('input, select').forEach(input => {
+            input.name = input.name.replace(/-\d+-/, `-${currentCount}-`);
+            input.id = input.id.replace(/-\d+-/, `-${currentCount}-`);
+            input.value = '';
+        });
+        formset.appendChild(prototypeRow);
+        totalForms.value = currentCount + 1;
+        updateDeleteButtonsEspecificas();
+    }
+
+    function deleteEspecifica(button) {
+        const row = button.closest('.esp-row');
+        const deleteField = row.querySelector('input[type="checkbox"][name$="DELETE"]');
+        if (deleteField) {
+            deleteField.checked = true;
+            row.style.display = 'none';
+        }
+        updateDeleteButtonsEspecificas();
+    }
+
+    function updateDeleteButtonsEspecificas() {
+        const deleteButtons = document.querySelectorAll('.btn-delete-esp');
+        const total = document.querySelectorAll('.esp-row').length;
+        deleteButtons.forEach(btn => btn.disabled = total <= 1);
+    }
+</script>
+
+
+{% for message in messages %}
+  {% if 'convocatoria_exito' in message.tags %}
+    <div class="modal fade" id="mensajeModal" tabindex="-1" aria-labelledby="mensajeModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-success">
+            <h5 class="modal-title text-white" id="mensajeModalLabel">Convocatoria actualizada</h5>
+            <button type="button" class="btn-close"
+                    onclick="window.location.href='{% url 'postulacion:index' %}'"
+                    aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">{{ message }}</div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light"
+                    onclick="window.location.href='{% url 'postulacion:index' %}'">Aceptar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% elif 'convocatoria_error' in message.tags %}
+    <div class="modal fade" id="mensajeModal" tabindex="-1" aria-labelledby="mensajeModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-danger">
+            <h5 class="modal-title text-white" id="mensajeModalLabel">Error al actualizar la convocatoria</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">{{ message }}</div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endfor %}
+
+{% if messages %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const modalEl = document.getElementById('mensajeModal');
+      if (modalEl) {
+        const modal = new bootstrap.Modal(modalEl);
+        modal.show();
+      }
+    });
+  </script>
+{% endif %}
+
+{% endblock %}

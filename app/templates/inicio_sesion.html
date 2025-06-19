@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block titulo %}
+INICIAR SESIÓN
+{% endblock %}
+
+
+{% block contenido %}
+<div class="container d-flex justify-content-center align-items-center flex-column" style="min-height: 60vh;">
+    <div class="card shadow p-4" style="max-width: 400px; width: 100%;">
+        <h4 class="text-center mb-3">Iniciar Sesión</h4>
+
+        <form method="post" novalidate>
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="username" class="form-label">Usuario</label>
+                <input type="text" class="form-control" name="username" id="username" required autofocus>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" name="password" id="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+        </form>
+    </div>
+</div>
+
+{# Modal específico de inicio de sesión #}
+{% for message in messages %}
+  {% if 'inicio_exitoso' in message.tags or 'inicio_fallido' in message.tags %}
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header {% if 'inicio_exitoso' in message.tags %}bg-success{% else %}bg-danger{% endif %}">
+            <h5 class="modal-title text-white" id="loginModalLabel">
+              {% if 'inicio_exitoso' in message.tags %}¡Bienvenido!{% else %}Error{% endif %}
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            {{ message }}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Aceptar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endfor %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var loginModalEl = document.getElementById('loginModal');
+    if (loginModalEl) {
+      var loginModal = new bootstrap.Modal(loginModalEl);
+      loginModal.show();
+    }
+  });
+</script>
+{% endblock %}

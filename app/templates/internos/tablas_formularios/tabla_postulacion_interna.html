@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block titulo %}
+BASE DE DATOS INTERNA: POSTULANTES
+{% endblock %}
+
+{% block contenido %}
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Listado de Postulantes Internos</h2>
+
+  <!-- Formulario de búsqueda -->
+  <form method="get" class="mb-4 d-flex">
+    <div class="me-2 w-25">
+      <input type="text" name="q" class="form-control"
+             placeholder="Buscar por nombre o RUT"
+             value="{{ search_query }}">
+    </div>
+    <button type="submit" class="btn btn-sm btn-primary">Buscar</button>
+  </form>
+
+  <!-- Exportar -->
+  <div class="mb-3">
+    <a href="{% url 'postulacion:exportar_postulantes_internos' postulacion.id %}" class="btn btn-success">
+      📥 Exportar todo a Excel
+    </a>
+  </div>
+
+  <!-- Tabla de postulantes -->
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover">
+      <thead class="table-dark text-center">
+        <tr>
+          <th>RUT</th>
+          <th>Nombre Completo</th>
+          <th>Ver Detalle</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for postulante in postulantes %}
+          <tr>
+            <td>{{ postulante.rut }}</td>
+            <td>{{ postulante.nombre_completo }}</td>
+            <td class="text-center">
+              <a href="{% url 'postulacion:detalle_postulacion_interna' postulante.id %}" class="btn btn-sm btn-primary">
+                Ver Detalle
+              </a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="3" class="text-center">
+              {% if search_query %}
+                No se encontró ningún postulante que coincida con “{{ search_query }}”.
+              {% else %}
+                No hay postulantes internos registrados.
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

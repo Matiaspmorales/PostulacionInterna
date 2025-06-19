@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block titulo %}
+FICHA DEL POSTULANTE INTERNO
+{% endblock %}
+
+{% block contenido %}
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Detalle del Postulante Interno</h2>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover">
+      <tbody>
+        <!-- Datos personales -->
+        <tr><th>RUT</th><td>{{ postulante.rut }}</td></tr>
+        <tr><th>Nombre Completo</th><td>{{ postulante.nombre_completo }}</td></tr>
+        <tr><th>Género</th><td>{{ postulante.genero }}</td></tr>
+        <tr><th>Correo Electrónico</th><td>{{ postulante.correo_electronico }}</td></tr>
+        <tr><th>Teléfono</th><td>{{ postulante.telefono_contacto }}</td></tr>
+        <tr><th>Comuna</th><td>{{ postulante.comuna_residencia }}</td></tr>
+        <tr><th>¿Presenta Discapacidad?</th><td>{{ postulante.discapacidad }}</td></tr>
+        <tr><th>Años de Experiencia</th><td>{{ postulante.años_experiencia }}</td></tr>
+
+        <!-- Declaraciones -->
+        <tr><th>¿Posee Certificado de Título?</th><td>{{ postulante.posee_certificado_titulo }}</td></tr>
+        <tr><th>¿Posee Certificado Laboral?</th><td>{{ postulante.posee_certificado_laboral }}</td></tr>
+        <tr><th>¿Presenta Cursos?</th><td>{{ postulante.presenta_certificado_cursos }}</td></tr>
+
+        <!-- Documentos -->
+        <tr><th>Currículum</th>
+          <td>
+            {% if postulante.curriculum %}
+              <a href="{{ postulante.curriculum.url }}" target="_blank">Ver documento</a>
+            {% else %}
+              <span>No disponible</span>
+            {% endif %}
+          </td>
+        </tr>
+        <tr><th>Certificado de Título</th>
+          <td>
+            {% if postulante.certificado_titulo %}
+              <a href="{{ postulante.certificado_titulo.url }}" target="_blank">Ver documento</a>
+            {% else %}
+              <span>No disponible</span>
+            {% endif %}
+          </td>
+        </tr>
+        <tr><th>Cédula de Identidad</th>
+          <td>
+            {% if postulante.cedula_identidad %}
+              <a href="{{ postulante.cedula_identidad.url }}" target="_blank">Ver documento</a>
+            {% else %}
+              <span>No disponible</span>
+            {% endif %}
+          </td>
+        </tr>
+        <tr><th>Certificado Discapacidad</th>
+          <td>
+            {% if postulante.certificado_discapacidad %}
+              <a href="{{ postulante.certificado_discapacidad.url }}" target="_blank">Ver documento</a>
+            {% else %}
+              <span>No disponible</span>
+            {% endif %}
+          </td>
+        </tr>
+        <tr><th>Certificado Laboral</th>
+          <td>
+            {% if postulante.certificado_laboral %}
+              <a href="{{ postulante.certificado_laboral.url }}" target="_blank">Ver documento</a>
+            {% else %}
+              <span>No disponible</span>
+            {% endif %}
+          </td>
+        </tr>
+        <tr><th>Cursos o Capacitaciones</th>
+          <td>
+            {% if postulante.cursos_capacitaciones %}
+              <a href="{{ postulante.cursos_capacitaciones.url }}" target="_blank">Ver documento</a>
+            {% else %}
+              <span>No disponible</span>
+            {% endif %}
+          </td>
+        </tr>
+
+        <!-- Fecha -->
+        <tr><th>Fecha de Creación</th><td>{{ postulante.fecha_creacion }}</td></tr>
+      </tbody>
+    </table>
+
+    <div class="text-center">
+      <a href="{% url 'postulacion:ver_postulante_interno' postulante.postulacion.id %}" class="btn btn-secondary">
+        ← Volver al listado
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

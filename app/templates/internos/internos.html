@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block titulo %}
+PORTAL DE POSTULACIONES INTERNAS
+{% endblock %}
+
+{% block contenido %}
+
+<h2 class="text-center my-4 h2">
+  <strong>Postulación a Concursos Internos</strong><br>
+  {% if user.is_superuser or user.is_staff %}            
+  <a href="{% url 'postulacion:crear_concurso' %}" class="btn btn-danger btn-lg mt-3">
+    Crear Postulación
+  </a>
+  {% endif %}
+</h2>
+
+<style>
+  .card-title-fixed {
+    min-height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0.5rem;
+    word-break: break-word;
+  }
+
+  .card-body-fixed {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .btn-group-fixed {
+    margin-top: auto;
+  }
+
+  .badge-fixed {
+    font-size: 0.95rem;
+    padding: 0.4em 0.8em;
+    min-height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .card h6, .card p, .card a, .card span {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+</style>
+
+<div class="row g-4">
+  {% for item in postulaciones %}
+  <div class="col-12 col-sm-12 col-md-6 col-lg-4 d-flex">
+    <div class="card h-100 w-100 shadow-sm rounded-3 d-flex flex-column">
+      <div class="card-header bg-primary text-white py-3 d-flex align-items-center justify-content-center">
+  <h6 class="mb-0 text-center text-wrap fw-semibold lh-sm w-100" style="font-size: 1rem;">
+    {{ item.titulo }}
+  </h6>
+</div>
+      <div class="card-body card-body-fixed text-center px-3">
+        <div>
+          <div class="badge bg-info text-dark mb-3 badge-fixed">
+            Grado: {{ item.grado }}
+          </div>
+
+          <p class="text-muted small mb-4 text-wrap">
+            Desde {{ item.fecha_inicio }} hasta {{ item.fecha_termino }}
+          </p>
+        </div>
+
+        <div class="d-grid gap-2 btn-group-fixed">
+          {% if item.bases %}
+          <a href="{{ item.bases.url }}" target="_blank" class="btn btn-secondary btn-lg">
+            Ver bases
+          </a>
+          {% endif %}
+          
+          {% if user.is_superuser %}
+          <a href="{% url 'postulacion:ver_postulante_interno' item.id %}" class="btn btn-danger btn-lg">Ver postulantes</a>
+          <a href="{% url 'postulacion:editar_concurso' item.id %}" class="btn btn-warning btn-sm">Editar</a>
+
+
+
+          {% else %}
+            {% if item.fecha_inicio <= hoy and item.fecha_termino >= hoy %}
+            <a href="{% url 'postulacion:postular_interno' item.id %}" class="btn btn-danger btn-lg">
+              Postular
+            </a>
+            {% else %}
+            <span class="btn btn-secondary btn-lg">Postulación cerrada</span>
+            {% endif %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% empty %}
+  <div class="col-12 text-center mt-5">
+    <div class="alert alert-warning" role="alert">
+      Lo sentimos, en estos momentos no hay convocatorias internas disponibles.
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}
