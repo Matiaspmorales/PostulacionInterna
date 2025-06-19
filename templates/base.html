@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio - Portal de Postulaciones SSLR</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'css/base/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/base/daltonismo.css' %}">
+  <link rel="stylesheet" href="{% static 'css/base/modo_oscuro.css' %}">
+  <link rel="icon" type="image/x-icon" href="{% static 'logos/logo_ssl_redondo.webp' %}">
+
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+  <header class="p-0 position-relative">
+    <img src="{% static 'logos/banner.webp' %}" alt="SSLR" class="img-fluid w-100"
+      style="height: 200px; object-fit: cover;">
+
+    <div class="btn-group d-flex flex-wrap w-auto position-absolute bottom-0 start-50 translate-middle-x pb-2"
+      role="group" aria-label="Grupo de navegación">
+      <a href="/postulaciones/" class="btn btn-light text-dark flex-fill text-center">
+        <strong>Inicio</strong>
+      </a>
+      <a href="/postulaciones/internos/" class="btn btn-light text-dark flex-fill text-center">
+        <strong>Concursos Internos</strong>
+      </a>
+
+      <button id="dark-mode-toggle" class="btn btn-light text-dark flex-fill text-center" title="Alternar modo oscuro">
+        <strong>Modo Oscuro</strong>
+      </button>
+      <button id="btn-colorblind" class="btn btn-light text-dark flex-fill text-center" title="Alternar modo daltónico">
+        <strong>Modo Daltonismo</strong>
+      </button>
+      {% if user.is_superuser%}
+      <a href="{% url 'postulacion:cerrar_sesion' %}" class="btn btn-light text-dark flex-fill text-center">
+        <strong>Cerrar Sesión</strong>
+      </a>
+      {% elif user.is_staff %}
+      <a href="{% url 'postulacion:cerrar_sesion' %}" class="btn btn-light text-dark flex-fill text-center">
+        <strong>Cerrar Sesión</strong>
+      </a>
+      {% endif %}
+    </div>
+
+
+  </header>
+
+  <main class="container flex-grow-1">
+    <div class="accessibility-widget d-flex justify-content-center align-items-center gap-2 mt-2">
+
+    </div>
+    {% block contenido %}
+    <div class="intro text-center">
+      <h2 class="mb-4">Bienvenido/a al portal de postulaciones</h2>
+      <p>En este sitio podrás informarte sobre los procesos de selección y postular a oportunidades laborales y
+        reemplazos disponibles dentro de nuestra red de salud.</p>
+    </div>
+
+    <section class="section">
+      <h3 class="mb-3">Cómo postular a Reemplazos</h3>
+      <p>Puede postular siendo, profesional, técnico, administrativo, auxiliar y/o conductor. Completando sus datos
+        personales junto a sus datos como profesional y adjuntando la documentación requerida (PDF).</p>
+    </section>
+
+    <section class="section">
+      <h3 class="mb-3">¿Cómo postular?</h3>
+      <ul>
+        <li>Revisa las convocatorias disponibles.</li>
+        <li>Lee los requisitos de cada una.</li>
+        <li>Prepara tu documentación (CV, título, certificados).</li>
+        <li>Haz clic en el botón <strong>Postular</strong> correspondiente.</li>
+      </ul>
+    </section>
+
+    <div class="highlight">
+      <h5>ℹ️ Importante</h5>
+      <p>Recuerda que debes subir tus documentos en formato PDF y que sólo se considerarán postulaciones
+        completas.</p>
+    </div>
+    {% endblock %}
+  </main>
+
+  <footer>
+    <p>© 2025 Servicio de Salud Los Ríos</p>
+  </footer>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+
+</html>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const root = document.documentElement;
+    const btnDark = document.getElementById('dark-mode-toggle');
+    const btnCB = document.getElementById('btn-colorblind');
+
+    const DARK_CLASS = 'dark-mode';
+    const CB_CLASS = 'colorblind-mode';
+    const KEY_DARK = 'sslr-dark-mode';
+    const KEY_COLORBLIND = 'sslr-colorblind';
+
+    // Inicializar modo oscuro
+    const savedDark = localStorage.getItem(KEY_DARK);
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (savedDark === 'on' || (savedDark === null && prefersDark)) {
+      root.classList.add(DARK_CLASS);
+      btnDark.innerHTML = '<strong>Modo claro</strong>';
+    } else {
+      btnDark.innerHTML = '<strong>Modo oscuro</strong>';
+    }
+
+    // Inicializar daltonismo
+    const savedCB = localStorage.getItem(KEY_COLORBLIND);
+    if (savedCB === 'on') {
+      root.classList.add(CB_CLASS);
+      btnCB.innerHTML = '<strong>Desactivar daltonismo</strong>';
+    } else {
+      btnCB.innerHTML = '<strong>Modo Daltonismo</strong>';
+    }
+
+    // Toggle Modo Oscuro
+    btnDark.addEventListener('click', () => {
+      const isDark = root.classList.toggle(DARK_CLASS);
+      if (isDark) {
+        root.classList.remove(CB_CLASS);
+        btnCB.innerHTML = '<strong>Modo Daltonismo</strong>';
+        localStorage.setItem(KEY_COLORBLIND, 'off');
+      }
+      localStorage.setItem(KEY_DARK, isDark ? 'on' : 'off');
+      btnDark.innerHTML = isDark
+        ? '<strong>Modo claro</strong>'
+        : '<strong>Modo oscuro</strong>';
+    });
+
+    // Toggle Modo Daltonismo
+    btnCB.addEventListener('click', () => {
+      const isCB = root.classList.toggle(CB_CLASS);
+      if (isCB) {
+        root.classList.remove(DARK_CLASS);
+        btnDark.innerHTML = '<strong>Modo oscuro</strong>';
+        localStorage.setItem(KEY_DARK, 'off');
+      }
+      localStorage.setItem(KEY_COLORBLIND, isCB ? 'on' : 'off');
+      btnCB.innerHTML = isCB
+        ? '<strong>Desactivar daltonismo</strong>'
+        : '<strong>Modo Daltonismo</strong>';
+    });
+  });
+</script>
+</body>
+
+</html>
